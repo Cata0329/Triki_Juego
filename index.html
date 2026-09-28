@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Triki - Juego de Tres en Raya con diferentes niveles de dificultad">
+    <title>Triki - Tres en Raya</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Pantalla de Inicio -->
+        <section id="screen-start" class="screen active">
+            <div class="start-content">
+                <div class="logo-container">
+                    <div class="logo-icon">
+                        <span class="logo-x">X</span>
+                        <span class="logo-o">O</span>
+                    </div>
+                    <h1 class="game-title">TRIKI</h1>
+                    <p class="game-subtitle">Pon a prueba tu estrategia</p>
+                </div>
+
+                <div class="difficulty-section">
+                    <h2 class="section-title">Dificultad</h2>
+                    <div class="difficulty-options" role="radiogroup" aria-label="Seleccionar dificultad">
+                        <button class="difficulty-btn active" data-level="1" role="radio" aria-checked="true">
+                            <span class="difficulty-name">Fácil</span>
+                            
+                        </button>
+                        <button class="difficulty-btn" data-level="2" role="radio" aria-checked="false">
+                            <span class="difficulty-name">Normal</span>
+                            
+                        </button>
+                        <button class="difficulty-btn" data-level="3" role="radio" aria-checked="false">
+                            <span class="difficulty-name">Difícil</span>
+                            
+                        </button>
+                        <button class="difficulty-btn" data-level="4" role="radio" aria-checked="false">
+                            <span class="difficulty-name">Experto</span>
+                            
+                        </button>
+                    </div>
+                </div>
+
+                <div class="level-indicator">
+                    <span class="level-label">Nivel actual:</span>
+                    <span class="level-value" id="current-level-display">1 / 4</span>
+                </div>
+
+                <button id="btn-play" class="btn btn-primary btn-play">
+                    <span class="btn-text">Jugar</span>
+                    <span class="btn-icon">→</span>
+                </button>
+
+                <div class="stats-container">
+                    <h3 class="stats-title">Estadísticas</h3>
+                    <div class="stats-grid">
+                        <div class="stat-item">
+                            <span class="stat-value" id="stat-wins">0</span>
+                            <span class="stat-label">Victorias</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-value" id="stat-losses">0</span>
+                            <span class="stat-label">Derrotas</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-value" id="stat-draws">0</span>
+                            <span class="stat-label">Empates</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-value" id="stat-streak">0</span>
+                            <span class="stat-label">Racha</span>
+                        </div>
+                    </div>
+                </div>
+
+                <button id="btn-reset-progress" class="btn btn-ghost btn-small">
+                    Reiniciar progreso
+                </button>
+            </div>
+        </section>
+
+        <!-- Pantalla de Juego -->
+        <section id="screen-game" class="screen">
+            <div class="game-header">
+                <button id="btn-back" class="btn btn-ghost btn-icon-only" aria-label="Volver al inicio">
+                    ←
+                </button>
+                <div class="game-info">
+                    <span class="game-level-badge" id="game-level-badge">Nivel 1 - Fácil</span>
+                </div>
+                <div class="turn-indicator" id="turn-indicator">
+                    <span class="turn-text" id="turn-text">Tu turno</span>
+                    <span class="turn-loader" id="turn-loader"></span>
+                </div>
+            </div>
+
+            <div class="game-board-container">
+                <div class="game-board" id="game-board" role="grid" aria-label="Tablero de Triki">
+                    <div class="cell" data-index="0" role="gridcell" tabindex="0" aria-label="Casilla 1"></div>
+                    <div class="cell" data-index="1" role="gridcell" tabindex="0" aria-label="Casilla 2"></div>
+                    <div class="cell" data-index="2" role="gridcell" tabindex="0" aria-label="Casilla 3"></div>
+                    <div class="cell" data-index="3" role="gridcell" tabindex="0" aria-label="Casilla 4"></div>
+                    <div class="cell" data-index="4" role="gridcell" tabindex="0" aria-label="Casilla 5"></div>
+                    <div class="cell" data-index="5" role="gridcell" tabindex="0" aria-label="Casilla 6"></div>
+                    <div class="cell" data-index="6" role="gridcell" tabindex="0" aria-label="Casilla 7"></div>
+                    <div class="cell" data-index="7" role="gridcell" tabindex="0" aria-label="Casilla 8"></div>
+                    <div class="cell" data-index="8" role="gridcell" tabindex="0" aria-label="Casilla 9"></div>
+                </div>
+            </div>
+
+            <div class="game-score">
+                <div class="score-item">
+                    <span class="score-label">Tú</span>
+                    <span class="score-value" id="score-player">0</span>
+                </div>
+                <div class="score-divider">:</div>
+                <div class="score-item">
+                    <span class="score-label">PC</span>
+                    <span class="score-value" id="score-computer">0</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Pantalla de Resultado -->
+        <section id="screen-result" class="screen">
+            <div class="result-content">
+                <div class="result-icon" id="result-icon">
+                    <span class="result-emoji" id="result-emoji">🎉</span>
+                </div>
+                <h2 class="result-title" id="result-title">¡Ganaste!</h2>
+                <p class="result-message" id="result-message">Excelente jugada</p>
+
+                <div class="result-stats">
+                    <div class="result-stat">
+                        <span class="result-stat-label">Nivel</span>
+                        <span class="result-stat-value" id="result-level">Fácil</span>
+                    </div>
+                    <div class="result-stat">
+                        <span class="result-stat-label">Resultado</span>
+                        <span class="result-stat-value" id="result-outcome">Victoria</span>
+                    </div>
+                </div>
+
+                <div class="result-actions">
+                    <button id="btn-play-again" class="btn btn-primary">
+                        Jugar de nuevo
+                    </button>
+                    <button id="btn-change-difficulty" class="btn btn-secondary">
+                        Cambiar dificultad
+                    </button>
+                </div>
+
+                <div class="result-stats-summary">
+                    <div class="summary-item">
+                        <span class="summary-value" id="summary-wins">0</span>
+                        <span class="summary-label">Victorias</span>
+                    </div>
+                    <div class="summary-item">
+                        <span class="summary-value" id="summary-losses">0</span>
+                        <span class="summary-label">Derrotas</span>
+                    </div>
+                    <div class="summary-item">
+                        <span class="summary-value" id="summary-draws">0</span>
+                        <span class="summary-label">Empates</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Contenedor de confeti -->
+    <div id="confetti-container" class="confetti-container"></div>
+
+    <script src="js/script.js"></script>
+</body>
+</html>
